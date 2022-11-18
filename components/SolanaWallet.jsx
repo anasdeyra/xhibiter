@@ -16,17 +16,16 @@ export default function SolanaWallet() {
     if (base58) {
       await navigator.clipboard.writeText(base58);
       setCopied(true);
+      setActive(false);
       setTimeout(() => setCopied(false), 400);
     }
   }, [base58]);
 
-  const openDropdown = useCallback(() => {
-    setActive(true);
-  }, []);
-
-  const closeDropdown = useCallback(() => {
-    setActive(false);
-  }, []);
+  const handleDisconnect = useCallback(() => {
+    disconnect().then(() => {
+      setActive(false);
+    });
+  });
 
   const content = useMemo(() => {
     console.log(wallet);
@@ -83,7 +82,7 @@ export default function SolanaWallet() {
               </li>
 
               <li
-                onClick={disconnect}
+                onClick={handleDisconnect}
                 className="wallet-adapter-dropdown-list-item"
                 role="menuitem"
               >
